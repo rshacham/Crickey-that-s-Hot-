@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,12 @@ public class Player : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Destroy(other.gameObject);
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +40,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Q))
         {
             // world.transform.Rotate(new Vector3(0,0,1),-90);
-            rotate = 18*rotationSpeed;
+            rotate += 18*rotationSpeed;
         }
 
         if (rotate >0)
