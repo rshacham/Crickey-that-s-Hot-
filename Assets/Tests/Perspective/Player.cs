@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rotate = 0;
+        
 
         // rigid.velocity = Vector2.right*speed;
         
