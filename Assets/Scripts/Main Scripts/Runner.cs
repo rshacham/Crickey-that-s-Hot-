@@ -54,7 +54,7 @@ public class Runner : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            float rotationRad = transform.localEulerAngles.z * Mathf.Deg2Rad;
+            float rotationRad = (transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
             shootingDirection = new Vector2(Mathf.Cos(rotationRad), Mathf.Sin(rotationRad));
             myShooter.Shoot(shootingDirection.normalized);
         }
@@ -66,15 +66,16 @@ public class Runner : MonoBehaviour
     {
 
         lookingDirection = mousePosition - myRigid.position; //Calculates a vector to where the runner is currently "looking"
-        angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg;
-        if (angle >= 90 && angle < 180)
+        angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg - 90;
+        print(angle);
+        if (angle >= 0 && angle < 90)
         {
-            myRigid.rotation = 90;
+            myRigid.rotation = 0;
         }
         
-        else if (angle < -90)
+        else if (angle < -180)
         {
-            myRigid.rotation = -90;
+            myRigid.rotation = -180;
         }
         
         else

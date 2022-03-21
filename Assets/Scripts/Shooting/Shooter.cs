@@ -42,7 +42,6 @@ public class Shooter : MonoBehaviour
                 WaterBullet bulletScript = temp.GetComponent<WaterBullet>();
                 bulletScript.Direction = direction.normalized;
                 bulletScript.ShotPower = shotPower;
-                print(direction);
                 //rigid = temp.GetComponent<Rigidbody2D>();
                 //rigid.velocity = direction * shotPower;
                 //SoundManager._shared.PlaySound("shotSound");
