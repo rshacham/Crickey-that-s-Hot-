@@ -30,7 +30,6 @@ public class Shooter : MonoBehaviour
     public void Shoot(Vector2 direction)
     {
         GameObject temp;
-        Rigidbody2D rigid;
         for (int i = 0; i < bulletsAmount; i++)
         {
             if (!waterBullets[i].activeInHierarchy)
