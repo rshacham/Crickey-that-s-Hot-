@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Turns : MonoBehaviour
 {
+    private bool coolDown;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +22,14 @@ public class Turns : MonoBehaviour
     {
         Runner temp = other.gameObject.GetComponent<Runner>();
         temp.Turn();
+    }
+
+    private IEnumerator CoolDown()
+    {
+        while (coolDown)
+        {
+            yield return new WaitForSeconds(5);
+            
+        }
     }
 }
