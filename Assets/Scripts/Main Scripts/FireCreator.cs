@@ -11,6 +11,8 @@ public class FireCreator : MonoBehaviour
     [SerializeField] private float positionChangeRate;
     private Rigidbody2D myRigid;
     private float posRandomTimer;
+    private Vector2 basePos = new Vector2(-1.5f, 0.5f);
+    
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,7 @@ public class FireCreator : MonoBehaviour
         print(posRandomTimer);
         if (posRandomTimer <= 0)
         {
-            myRigid.position = new Vector2(Random.Range(0, 10), Random.Range(0, 10));
+            myRigid.position = basePos + new Vector2(Random.Range(0, 10), Random.Range(0, 10));
             print(myRigid.position);
             posRandomTimer = positionChangeRate;
 
