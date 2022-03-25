@@ -10,6 +10,8 @@ TagManager:
   - Koala
   - Fire
   - Fog
+  - Turn
+  - Turn Right
   layers:
   - Default
   - TransparentFX

@@ -35,34 +35,34 @@ public class Runner : MonoBehaviour
         mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 shooterPosition = myShooter.transform.position;
         Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
-        print(shootingDirection);
+        // print(shootingDirection);
         // print(mousePosition);
         // print(myShooter.transform.position);
         if (rotate == 0)
         {
             myMovement.y = 1; // Always move forward
             myMovement.x = Input.GetAxisRaw("Horizontal"); 
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                GameManager._shared.TurningRight = false;
-            }
-
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                GameManager._shared.TurningRight = true;
-            }
+            // if (Input.GetKeyDown(KeyCode.A))
+            // {
+            //     GameManager._shared.TurningRight = false;
+            // }
+            //
+            // if (Input.GetKeyDown(KeyCode.D))
+            // {
+            //     GameManager._shared.TurningRight = true;
+            // }
         }
 
-        // if (Input.GetKeyDown(KeyCode.Q))
-        // {
-        //     // world.transform.Rotate(new Vector3(0,0,1),-90);
-        //     rotate += 18 * rotationSpeed;
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.E))
-        // {
-        //     rotate -= 18 * rotationSpeed;
-        // }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // world.transform.Rotate(new Vector3(0,0,1),-90);
+            rotate += 18 * rotationSpeed;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            rotate -= 18 * rotationSpeed;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -118,9 +118,9 @@ public class Runner : MonoBehaviour
         }
     }
 
-    public void Turn()
+    public void Turn(bool turnDir)
     {
-        if (GameManager._shared.TurningRight)
+        if (turnDir)
         {
             rotate += 18 * rotationSpeed;
         }
@@ -151,5 +151,10 @@ public class Runner : MonoBehaviour
         {
             other.gameObject.SetActive(false);
         }
+        // if (other.CompareTag("Turn"))
+        // {
+        //     print("turn");
+        //     Turn(false);
+        // }
     }
 }

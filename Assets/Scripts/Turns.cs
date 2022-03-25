@@ -6,6 +6,8 @@ using UnityEngine;
 public class Turns : MonoBehaviour
 {
     private bool coolDown;
+    [SerializeField] private bool leftTurn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,8 +22,9 @@ public class Turns : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        print("left");
         Runner temp = other.gameObject.GetComponent<Runner>();
-        temp.Turn();
+        temp.Turn(leftTurn);
     }
 
     private IEnumerator CoolDown()

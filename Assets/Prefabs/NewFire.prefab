@@ -121,7 +121,7 @@ MonoBehaviour:
   fireSprites: []
   fireLife: 5
   spreadCooldown: 5
-  fire: {fileID: 0}
+  fire: {fileID: 5416801171108456331}
   fireLayer:
     serializedVersion: 2
     m_Bits: 0
