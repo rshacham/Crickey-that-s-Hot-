@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WaterBullet
   - Wall
+  - Ground
   layers:
   - Default
   - TransparentFX

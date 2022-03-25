@@ -14,7 +14,7 @@ public class Fire : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if (CompareTag("WaterBullet"))
+        if (CompareTag("WaterBullet"))
         {
             print("hey");
             fireLife -= 1;

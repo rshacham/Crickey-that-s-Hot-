@@ -38,7 +38,7 @@ public class Runner : MonoBehaviour
         if (rotate == 0)
         {
             myMovement.x = 1;
-            myMovement.y = Input.GetAxisRaw("Vertical");
+            myMovement.y = -Input.GetAxisRaw("Horizontal");
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -67,7 +67,7 @@ public class Runner : MonoBehaviour
 
         lookingDirection = mousePosition - myRigid.position; //Calculates a vector to where the runner is currently "looking"
         angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg - 90;
-        print(angle);
+        // print(angle);
         if (angle >= 0 && angle < 90)
         {
             myRigid.rotation = 0;
@@ -100,6 +100,15 @@ public class Runner : MonoBehaviour
             // transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
             myWorld.transform.Rotate(new Vector3(0, 0, -1), (-5f / rotationSpeed));
             rotate++;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+            print("wall"); 
+            myRigid.position = Vector2.zero;
         }
     }
 }
