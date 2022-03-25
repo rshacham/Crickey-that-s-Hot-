@@ -120,4 +120,12 @@ public class Runner : MonoBehaviour
 
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+            myRigid.position = Vector2.zero;
+        }
+    }
 }
