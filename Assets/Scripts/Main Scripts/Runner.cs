@@ -14,7 +14,6 @@ public class Runner : MonoBehaviour
 
     //private Transform runnerTransform;
 
-    private Vector2 shootingDirection;
     private Rigidbody2D myRigid;
     private Vector2 myMovement;
     private Vector2 mousePosition;
@@ -32,7 +31,13 @@ public class Runner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 shooterPosition = myShooter.transform.position;
+        Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
+        print(shootingDirection);
+        // print(mousePosition);
+        // print(myShooter.transform.position);
         if (rotate == 0)
         {
             myMovement.y = 1; // Always move forward
@@ -61,8 +66,14 @@ public class Runner : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            float rotationRad = (transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
-            shootingDirection = new Vector2(Mathf.Cos(rotationRad), Mathf.Sin(rotationRad));
+            //Vector3 shooterPosition = myShooter.transform.position;
+            //Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
+            //float rotationRad = (transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
+            //shootingDirection = new Vector2(Mathf.Cos(rotationRad), Mathf.Sin(rotationRad));
+            if (shootingDirection.y < 0.4)
+            {
+                shootingDirection.y = 0.4f;
+            }
             myShooter.Shoot(shootingDirection.normalized);
         }
 
