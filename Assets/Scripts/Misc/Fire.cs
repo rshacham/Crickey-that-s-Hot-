@@ -91,17 +91,13 @@ public class Fire : MonoBehaviour
         
         while (directions.Count != 0)
         {
-            //print(Random.Range(0, directions.Count - 1));
             int randomInt = Random.Range(0, directions.Count);
             newDirection = directions[randomInt];
             newPosition = NewDirectionPosition(newDirection, 1.01f);
             Collider2D[] fires = Physics2D.OverlapCircleAll(newPosition, 0.49f, fireLayer);
             Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.49f, koalaLayer);
-            print(fires.Length);
-            print(CheckBoundaryDistance(newDirection, 3));
             if (fires.Length == 0 && koalas.Length == 0 && CheckBoundaryDistance(newDirection, 1))
             {
-                print("hey");
                 break;
             }
             directions.Remove(newDirection);
@@ -109,12 +105,9 @@ public class Fire : MonoBehaviour
 
         if (directions.Count == 0)
         {
-            print("ho");
             return;
         }
-
-        //Vector3 position = transform.position;;
-        //print(newDirection);
+        
         GameObject newFire;
         Fire newScript;
         SpriteRenderer newSprite;
@@ -255,8 +248,6 @@ public class Fire : MonoBehaviour
     private bool CheckBoundaryDistance(int direction, float distance)
     {
         Vector3 curPosition = transform.position;
-        print(transform.position);
-        print(direction);
         switch (direction)
         {
             case 0:
