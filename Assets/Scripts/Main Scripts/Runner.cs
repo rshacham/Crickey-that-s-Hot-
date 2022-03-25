@@ -90,12 +90,14 @@ public class Runner : MonoBehaviour
         
         if (rotate > 0)
         {
+            // transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
             myWorld.transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
             rotate--;
         }
 
         if (rotate < 0)
         {
+            // transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
             myWorld.transform.Rotate(new Vector3(0, 0, -1), (-5f / rotationSpeed));
             rotate++;
         }
