@@ -123,9 +123,22 @@ public class Runner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Wall"))
+        if (other.CompareTag("Wall")) //TODO hitting a wall mechanic, probably game over
         {
             myRigid.position = Vector2.zero;
+        }
+        if (other.CompareTag("Koala")) //TODO Getting a Koala mechanic here
+        {
+            myRigid.position = Vector2.zero;
+        }
+        if (other.CompareTag("Fire")) //TODO hitting a fire mechanic, probably game over
+        {
+            myRigid.position = Vector2.zero;
+        }
+
+        if (other.CompareTag("Fog"))
+        {
+            other.gameObject.SetActive(false);
         }
     }
 }

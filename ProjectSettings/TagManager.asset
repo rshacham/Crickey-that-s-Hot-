@@ -7,6 +7,9 @@ TagManager:
   - WaterBullet
   - Wall
   - Ground
+  - Koala
+  - Fire
+  - Fog
   layers:
   - Default
   - TransparentFX
