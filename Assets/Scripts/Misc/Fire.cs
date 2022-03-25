@@ -38,6 +38,8 @@ public class Fire : MonoBehaviour
     void OnEnable()
     {
         StartCoroutine(DelaySpread());
+        boundaries.x = 40.5f;
+        boundaries.y = -13.5f;
         boundaries.z = 7.5f;
         boundaries.w = -10.5f;
     }
@@ -87,10 +89,14 @@ public class Fire : MonoBehaviour
         
         while (directions.Count != 0)
         {
-            newDirection = directions[Random.Range(0, directions.Count - 1)];
+            //print(Random.Range(0, directions.Count - 1));
+            int randomInt = Random.Range(0, directions.Count);
+            newDirection = directions[randomInt];
             newPosition = NewDirectionPosition(newDirection);
-            Collider2D[] fires = Physics2D.OverlapCircleAll(newPosition, 1f, LayerMask.NameToLayer("Fires"));
-            Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 1f, LayerMask.NameToLayer("Koala"));
+            Collider2D[] fires = Physics2D.OverlapCircleAll(newPosition, 1.4f);
+            Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 4f, LayerMask.NameToLayer("Koala"));
+            print(fires.Length);
+            print(CheckBoundaryDistance(newDirection, 3));
             if (fires.Length == 0 && koalas.Length == 0 && CheckBoundaryDistance(newDirection, 3))
             {
                 break;
@@ -102,9 +108,9 @@ public class Fire : MonoBehaviour
         {
             return;
         }
-        
-        //Vector3 position = transform.position;
-        print(newDirection);
+
+        //Vector3 position = transform.position;;
+        //print(newDirection);
         GameObject newFire;
         Fire newScript;
         SpriteRenderer newSprite;
@@ -245,6 +251,8 @@ public class Fire : MonoBehaviour
     private bool CheckBoundaryDistance(int direction, float distance)
     {
         Vector3 curPosition = transform.position;
+        print(transform.position);
+        print(direction);
         switch (direction)
         {
             case 0:
