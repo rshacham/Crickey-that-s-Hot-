@@ -20,7 +20,10 @@ public class Runner : MonoBehaviour
     private int rotate = 0;
     private Shooter myShooter;
     private float angle;
-
+    public int Rotate
+    {
+        get => rotate;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -140,11 +143,11 @@ public class Runner : MonoBehaviour
         }
         if (other.CompareTag("Koala")) //TODO Getting a Koala mechanic here
         {
-            myRigid.position = Vector2.zero;
+            GameManager._shared.GotKoala();
+            Destroy(other.gameObject);
         }
         if (other.CompareTag("Fire")) //TODO hitting a fire mechanic, probably game over
         {
-            myRigid.position = Vector2.zero;
         }
 
         if (other.CompareTag("Fog"))
