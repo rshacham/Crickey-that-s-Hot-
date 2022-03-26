@@ -38,7 +38,9 @@ public class RandomCreator : MonoBehaviour
         {
             if (posRandomTimer <= 0)
             {
-                myRigid.position = basePos + new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
+                myRigid.position = new Vector2(world.transform.position.x, world.transform.position.y) +
+                                   basePos + 
+                                   new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
                 posRandomTimer = positionChangeRate;
 
             }
@@ -51,7 +53,6 @@ public class RandomCreator : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print(GameManager._shared.Rotating());
         if (other.gameObject.CompareTag("Ground") & !GameManager._shared.Rotating())
         {
             Instantiate(whatToCreate, myRigid.position, quaternion.identity).transform.parent = world.transform;

@@ -32,7 +32,7 @@ public class Shooter : MonoBehaviour
         GameObject temp;
         for (int i = 0; i < bulletsAmount; i++)
         {
-            if (!waterBullets[i].activeInHierarchy)
+            if (!waterBullets[i].activeInHierarchy)//TODO fix sprite direction
             {
                 temp = waterBullets[i];
                 temp.transform.position = transform.position;
@@ -40,6 +40,7 @@ public class Shooter : MonoBehaviour
                 temp.SetActive(true);
                 WaterBullet bulletScript = temp.GetComponent<WaterBullet>();
                 bulletScript.Direction = direction.normalized;
+                
                 bulletScript.ShotPower = shotPower;
                 //rigid = temp.GetComponent<Rigidbody2D>();
                 //rigid.velocity = direction * shotPower;

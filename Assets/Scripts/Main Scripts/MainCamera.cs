@@ -15,6 +15,6 @@ public class MainCamera : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(myRunner.position.x, myRunner.position.y, transform.position.z);
-        // transform.rotation = myRunner.transform.rotation;
+        transform.rotation = myRunner.transform.rotation;
     }
 }

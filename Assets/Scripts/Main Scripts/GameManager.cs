@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -17,9 +18,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RandomCreator koalaSpawner;
     [SerializeField] private RandomCreator fireSpawner;
     [SerializeField] private Runner runner;
+    [SerializeField] private TextMeshProUGUI scoreUI;
+    
+    private int score;
     void Start()
     {
         _shared = this;
+        score = 0;
     }
 
     // Update is called once per frame
@@ -30,9 +35,9 @@ public class GameManager : MonoBehaviour
 
     public void GotKoala()
     {
-        print(koalaSpawner.AmountOfItem);
         koalaSpawner.AmountOfItem -= 1;
-        print(koalaSpawner.AmountOfItem);
+        score++;
+        scoreUI.text = score.ToString();
     }
 
     public bool Rotating()

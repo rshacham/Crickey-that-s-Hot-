@@ -20,6 +20,8 @@ public class Runner : MonoBehaviour
     private int rotate = 0;
     private Shooter myShooter;
     private float angle;
+    private bool isMoving;
+    private int timesTurned;
     public int Rotate
     {
         get => rotate;
@@ -44,7 +46,7 @@ public class Runner : MonoBehaviour
         if (rotate == 0)
         {
             myMovement.y = 1; // Always move forward
-            myMovement.x = Input.GetAxisRaw("Horizontal"); 
+            myMovement.x = -Input.GetAxisRaw("Horizontal"); 
             // if (Input.GetKeyDown(KeyCode.A))
             // {
             //     GameManager._shared.TurningRight = false;
@@ -55,16 +57,36 @@ public class Runner : MonoBehaviour
             //     GameManager._shared.TurningRight = true;
             // }
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
+        Vector2 brakeVector = myRigid.velocity;
+        if (timesTurned % 2 == 0)
+        {
+            brakeVector.x *= 0.98f;
+        }
+        else
+        {
+            brakeVector.y *= 0.98f;
+        }
+            
+        myRigid.velocity = brakeVector;
+        if (Input.GetKey(KeyCode.D))
+        {
+            myRigid.AddForce(transform.right/5f,ForceMode2D.Impulse);
+        }else if (Input.GetKey(KeyCode.A))
+        {
+            myRigid.AddForce(-transform.right/5f,ForceMode2D.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             // world.transform.Rotate(new Vector3(0,0,1),-90);
             rotate += 18 * rotationSpeed;
+            timesTurned++;
+
         }
         
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             rotate -= 18 * rotationSpeed;
+            timesTurned++;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -73,10 +95,12 @@ public class Runner : MonoBehaviour
             //Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
             //float rotationRad = (transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
             //shootingDirection = new Vector2(Mathf.Cos(rotationRad), Mathf.Sin(rotationRad));
-            if (shootingDirection.y < 0.4)
-            {
-                shootingDirection.y = 0.4f;
-            }
+
+            //Todo fix shooting when rotating.
+            // if (shootingDirection.y < 0.4)
+            // {
+            //     shootingDirection.y = 0.4f;
+            // }
             myShooter.Shoot(shootingDirection.normalized);
         }
 
@@ -101,23 +125,30 @@ public class Runner : MonoBehaviour
         // {
         //     myRigid.rotation = angle;
         // }
-        if (rotate == 0) // Controls the movement of the runner, we only want this to occur if rotation is 0
+        if (rotate == 0 & !isMoving) // Controls the movement of the runner, we only want this to occur if rotation is 0
         {
-            myRigid.MovePosition(myRigid.position + myMovement * runnerSpeed * Time.fixedDeltaTime);
+            // myRigid.MovePosition(myRigid.position + myMovement * runnerSpeed * Time.fixedDeltaTime);
+            myRigid.AddForce(transform.up*runnerSpeed,ForceMode2D.Impulse);
+            isMoving = true;
         }
         
         if (rotate > 0)
         {
-            // transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
-            myWorld.transform.Rotate(new Vector3(0, 0, -1), (-5f / rotationSpeed));
+            transform.Rotate(new Vector3(0, 0, -1), (-5f / rotationSpeed));
+            // myWorld.transform.Rotate(new Vector3(0, 0, -1), (-5f / rotationSpeed));
+            myRigid.velocity = Vector2.zero;
             rotate--;
+            isMoving = false;
         }
 
         if (rotate < 0)
         {
-            // transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
-            myWorld.transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
+            transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
+            // myWorld.transform.Rotate(new Vector3(0, 0, 1), (-5f / rotationSpeed));
+            myRigid.velocity = Vector2.zero;
             rotate++;
+            isMoving = false;
+
         }
     }
 
