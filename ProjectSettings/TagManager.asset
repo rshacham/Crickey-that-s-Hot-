@@ -12,6 +12,7 @@ TagManager:
   - Fog
   - Turn
   - Turn Right
+  - Wall side
   layers:
   - Default
   - TransparentFX

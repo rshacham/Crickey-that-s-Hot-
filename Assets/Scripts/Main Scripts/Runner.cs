@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -52,7 +53,6 @@ public class Runner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dirNum = dirNum % 4;
         mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 shooterPosition = myShooter.transform.position;
         Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
@@ -118,8 +118,7 @@ public class Runner : MonoBehaviour
             // }
             myShooter.Shoot(shootingDirection.normalized);
         }
-
-
+        dirNum = (4 + dirNum) % 4;
     }
 
     private void FixedUpdate()
@@ -184,11 +183,7 @@ public class Runner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Wall")) //TODO hitting a wall mechanic, probably game over
-        {
-            myRigid.position = Vector2.zero;
-        }
-        if (other.CompareTag("Koala")) //TODO Getting a Koala mechanic here
+        if (other.CompareTag("Koala"))
         {
             GameManager._shared.GotKoala();
             Destroy(other.gameObject);
@@ -206,5 +201,20 @@ public class Runner : MonoBehaviour
         //     print("turn");
         //     Turn(false);
         // }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        print(dirNum);
+        if (other.gameObject.CompareTag("Wall") & (dirNum == 0 | dirNum == 2))
+        {
+            SceneManager.LoadScene("Beta");
+            
+        }
+        
+        if (other.gameObject.CompareTag("Wall side") & (dirNum == 1 | dirNum == 3))
+        {
+            SceneManager.LoadScene("Beta");
+        }
     }
 }
