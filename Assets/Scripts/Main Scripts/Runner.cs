@@ -32,6 +32,12 @@ public class Runner : MonoBehaviour
     private float angle;
     private bool isMoving;
     private int dirNum;
+    private float speedVarFromOutside = 0;
+    public float OutsideVarSpeed
+    {
+        get => speedVarFromOutside;
+        set => speedVarFromOutside = value;
+    }
     public int Rotate
     {
         get => rotate;
@@ -118,6 +124,7 @@ public class Runner : MonoBehaviour
 
     private void FixedUpdate()
     {
+        float currSpeed = runnerSpeed + OutsideVarSpeed;
         Vector2 lookingDirection = mousePosition - myRigid.position; //Calculates a vector to where the runner is currently "looking"
         // angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg - 90; 
         // if (angle >= 0 && angle < 90)
@@ -137,7 +144,7 @@ public class Runner : MonoBehaviour
         if (rotate == 0 & !isMoving) // Controls the movement of the runner, we only want this to occur if rotation is 0
         {
             // myRigid.MovePosition(myRigid.position + myMovement * runnerSpeed * Time.fixedDeltaTime);
-            myRigid.AddForce(transform.up*runnerSpeed,ForceMode2D.Impulse);
+            myRigid.AddForce(transform.up*currSpeed,ForceMode2D.Impulse);
             isMoving = true;
         }
         

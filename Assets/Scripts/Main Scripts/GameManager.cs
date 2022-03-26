@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RandomCreator fireSpawner;
     [SerializeField] private Runner runner;
     [SerializeField] private TextMeshProUGUI scoreUI;
+    [SerializeField] private float koalaEffectOnSpeed;
+
     
     private int score;
     void Start()
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
         koalaSpawner.AmountOfItem -= 1;
         score++;
         scoreUI.text = score.ToString();
+        runner.OutsideVarSpeed += koalaEffectOnSpeed;
     }
 
     public bool Rotating()
