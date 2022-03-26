@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     }
     private bool turningRight; //If true the player last move was to the right, else it was false
     // Start is called before the first frame update
+    [SerializeField] private RandomCreator koalaSpawner;
+    [SerializeField] private RandomCreator fireSpawner;
+    [SerializeField] private Runner runner;
     void Start()
     {
         _shared = this;
@@ -23,5 +26,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void GotKoala()
+    {
+        print(koalaSpawner.AmountOfItem);
+        koalaSpawner.AmountOfItem -= 1;
+        print(koalaSpawner.AmountOfItem);
+    }
+
+    public bool Rotating()
+    {
+        return runner.Rotate != 0;
     }
 }
