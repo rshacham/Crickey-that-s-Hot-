@@ -5,6 +5,9 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D myRunner;
+    [SerializeField] private bool followRotation;
+    [SerializeField] private bool followPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +17,14 @@ public class MainCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(myRunner.position.x, myRunner.position.y, transform.position.z);
-        transform.rotation = myRunner.transform.rotation;
+        if (followPosition)
+        {
+            transform.position = new Vector3(myRunner.position.x, myRunner.position.y, transform.position.z);
+        }
+
+        if (followRotation)
+        {
+            transform.rotation = myRunner.transform.rotation;
+        }
     }
 }

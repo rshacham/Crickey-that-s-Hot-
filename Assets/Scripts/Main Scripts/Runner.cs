@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Runner : MonoBehaviour
 {
     [SerializeField] private float runnerSpeed; // How fast will the runner move
+    [SerializeField] private float runnerSideSpeed; // How fast will the runner move side to side. higher = slower
+    [SerializeField] private float runnerSideBraking;// Higher = stronger braking
     [SerializeField] private int rotationSpeed; //How fast will the camera rotate
     [SerializeField] private GameObject myWorld;
     [SerializeField] private Camera myCamera;
@@ -60,20 +62,20 @@ public class Runner : MonoBehaviour
         Vector2 brakeVector = myRigid.velocity;
         if (timesTurned % 2 == 0)
         {
-            brakeVector.x *= 0.98f;
+            brakeVector.x *= 1-runnerSideBraking/100;
         }
         else
         {
-            brakeVector.y *= 0.98f;
+            brakeVector.y *= 1-runnerSideBraking/100;
         }
             
         myRigid.velocity = brakeVector;
         if (Input.GetKey(KeyCode.D))
         {
-            myRigid.AddForce(transform.right/5f,ForceMode2D.Impulse);
+            myRigid.AddForce(transform.right/runnerSideSpeed,ForceMode2D.Impulse);
         }else if (Input.GetKey(KeyCode.A))
         {
-            myRigid.AddForce(-transform.right/5f,ForceMode2D.Impulse);
+            myRigid.AddForce(-transform.right/runnerSideSpeed,ForceMode2D.Impulse);
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
