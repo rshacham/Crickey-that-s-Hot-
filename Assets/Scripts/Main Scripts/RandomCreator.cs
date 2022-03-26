@@ -38,9 +38,7 @@ public class RandomCreator : MonoBehaviour
         {
             if (posRandomTimer <= 0)
             {
-                myRigid.position = new Vector2(world.transform.position.x, world.transform.position.y) +
-                                   basePos + 
-                                   new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
+                myRigid.position = basePos + new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
                 posRandomTimer = positionChangeRate;
 
             }

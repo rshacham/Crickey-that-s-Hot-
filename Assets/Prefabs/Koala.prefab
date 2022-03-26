@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1194158007111941121}
   - component: {fileID: -4576841632992684769}
   - component: {fileID: -7227947462611058471}
+  - component: {fileID: -4927979294508584683}
   m_Layer: 0
   m_Name: Koala
   m_TagString: Koala
@@ -132,6 +133,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-4927979294508584683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863525844043069293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a31db836180e5428c63937d292fc4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRunner: {fileID: 0}
 --- !u!1 &8552619719638337723
 GameObject:
   m_ObjectHideFlags: 0
