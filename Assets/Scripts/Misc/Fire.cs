@@ -12,8 +12,24 @@ public class Fire : MonoBehaviour
     [SerializeField] private float spreadCooldown;
     private bool shouldSpread = true;
     [SerializeField] GameObject fire;
-    [SerializeField] private LayerMask fireLayer;
+    [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask koalaLayer;
+    [SerializeField] private float spreadDistance; //Distance between x/y position of 2 adjacent fires(basically the size of the sprite)
+    [SerializeField] private float spreadFix; //Fix for the x/y position(relevant only when we change axis twice in a row)
+
+    public int PreviousDirection
+    {
+        get => previousDirection;
+        set => previousDirection = value;
+    }
+    private int previousDirection;
+
+    public bool AfterAxisChange
+    {
+        get => afterAxisChange;
+        set => afterAxisChange = value;
+    }
+    private bool afterAxisChange;
 
     public int FireDirection
     {
@@ -41,9 +57,9 @@ public class Fire : MonoBehaviour
     {
         StartCoroutine(DelaySpread());
         boundaries.x = 40.5f;
-        boundaries.y = -13.5f;
-        boundaries.z = 7.5f;
-        boundaries.w = -10.5f;
+        boundaries.y = -3.5f;
+        boundaries.z = 4.5f;
+        boundaries.w = -2.5f;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -76,131 +92,137 @@ public class Fire : MonoBehaviour
 
     private void Spread()
     {
-        int newDirection = 0;
-        Vector3 newPosition = new Vector3(0, 0, 0);
-        //Remove the oppisate direction, we can't spread to the left after we already spread to the right
-        List<int> directions = new List<int> {0, 1, 2, 3};
-        if (fireDirection == 0 || fireDirection == 2)
-        {
-            directions.Remove(fireDirection + 1);
-        }
-        else
-        {
-            directions.Remove(fireDirection - 1);
-        }
-        
-        while (directions.Count != 0)
-        {
-            int randomInt = Random.Range(0, directions.Count);
-            newDirection = directions[randomInt];
-            newPosition = NewDirectionPosition(newDirection, 1.01f);
-            Collider2D[] fires = Physics2D.OverlapCircleAll(newPosition, 0.49f, fireLayer);
-            Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.49f, koalaLayer);
-            if (fires.Length == 0 && koalas.Length == 0 && CheckBoundaryDistance(newDirection, 1))
-            {
-                break;
-            }
-            directions.Remove(newDirection);
-        }
-
-        if (directions.Count == 0)
-        {
-            return;
-        }
-        
-        GameObject newFire;
-        Fire newScript;
-        SpriteRenderer newSprite;
-        if (ShouldChangeAxis(fireDirection, newDirection))
-        {
-            SpreadChangeAxis(newDirection, newPosition);
-            shouldSpread = false;
-
-            return;
-        }
-        
-        SpreadSameAxis(newDirection, newPosition);
-        //     if ((fireDirection == 2))
+        Vector3 newPosition;
+        previousDirection = fireDirection;
+        int newDirection = fireDirection;
+        // if (AfterAxisChange)
         // {
-        //     if (transform.position.x < boundaries.z - 3)
+        //     if (CheckBoundaryDistance(newDirection, spreadDistance))
         //     {
-        //         SpreadHorizontal(1);
-        //     }
-        //
-        //     else
-        //     {
-        //         if (transform.position.x - directionGenerated * 3 > boundaries.w + 3)
+        //         Vector3 newPosition = FixPositionAfterChange(transform.position);
+        //         Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
+        //         if (koalas.Length != 0)
         //         {
-        //             ChangeDirection(0, -1);
+        //             shouldSpread = false;
+        //             return;
+        //         }
+        //         SpreadAfterAxisChange(newDirection, newPosition);
+        //         shouldSpread = false;
+        //         return;
+        //     }
+        // }
+
+        newPosition = NewDirectionPosition(newDirection, spreadDistance);
+        Collider2D[] grounds = Physics2D.OverlapCircleAll(newPosition, 0f, groundLayer);
+
+        if (grounds.Length != 0)
+        {
+            newPosition = NewDirectionPosition(newDirection, spreadDistance);
+            Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
+            if (koalas.Length != 0)
+            {
+                shouldSpread = false;
+                return;
+            }
+            SpreadSameAxis(newDirection, newPosition);
+            shouldSpread = false;
+            return;
+        }
+
+        // else
+        // {
+        //     List<int> directions = new List<int> {0, 1};
+        //     while (directions.Count != 0)
+        //     {
+        //         int randomInt = Random.Range(0, directions.Count);
+        //         newDirection = directions[randomInt];
+        //         Vector3 newPosition = NewDirectionPosition(newDirection, spreadDistance);
+        //         Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
+        //         if (koalas.Length == 0 && CheckBoundaryDistance(newDirection, 1))
+        //         {
+        //             SpreadChangeAxis(newDirection, newPosition);
+        //             shouldSpread = false;
+        //             return;
+        //         }
+        //         directions.Remove(newDirection);
+        //         if (directions.Count == 0)
+        //         {
+        //             shouldSpread = false;
+        //             return;
         //         }
         //     }
         // }
-        //
-        // else if ((fireDirection == 3) && transform.position.x > boundaries.w + 3)
-        // {
-        //     newFire = Instantiate(fire);
-        //     newScript = newFire.GetComponent<Fire>();
-        //     newFire.transform.position =
-        //         new Vector3(position.x - 3, position.y, position.z);
-        //     newSprite = newFire.GetComponent<SpriteRenderer>();
-        //     newScript.Boundaries = boundaries;
-        //     newSprite.sprite = fireSprites[0];
-        // }
-        shouldSpread = false;
-    }
 
-    private void SpreadHorizontal(int direction)
-    // if direction is 1 we spread to the right, if -1 we spread to the left
-    {
-        Vector3 position = transform.position;
-        GameObject newFire;
-        Fire newScript;
-        SpriteRenderer newSprite;
-        newFire = Instantiate(fire);
-        newScript = newFire.GetComponent<Fire>();
-        newFire.transform.position =
-            new Vector3(position.x + 3 * direction, position.y, position.z);
-        newFire.transform.rotation = transform.rotation;
-        newSprite = newFire.GetComponent<SpriteRenderer>();
-        newScript.Boundaries = boundaries;
-        newScript.DirectionGenerated = DirectionGenerated + 1;
-        newSprite.sprite = fireSprites[0];
-    }
-
-    private void ChangeDirection(int axis, int direction)
-    // if axis is 0 we're changing in the horizontal axis, if 1 we're changing in the vertical vaxis
-    // if direction is 1 we spread to the right/up, if -1 we spread to the left/down
-    {
-        int newPosition;
-        Vector3 position = transform.position;
-        GameObject newFire;
-        Fire newScript;
-        SpriteRenderer newSprite;
-        newFire = Instantiate(fire);
-        newScript = newFire.GetComponent<Fire>();
-        newScript.FireDirection = fireDirection;
-        newPosition = direction * 3 * directionGenerated;
-        if (axis == 0)
+        Vector3 curPosition = transform.position;
+        newPosition = new Vector3(curPosition.x, curPosition.y + spreadDistance, curPosition.z);
+        if (newDirection == 2)
         {
-            newFire.transform.position =
-                new Vector3(position.x + newPosition, position.y, position.z);
+            newDirection = 3;
         }
+
         else
         {
-            newFire.transform.position = new Vector3(position.x, position.y + newPosition, position.z);
+            newDirection = 2;
         }
+        Collider2D[] moalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
+        if (moalas.Length != 0)
+        {
+            shouldSpread = false;
+            return;
+        }
+        SpreadSameAxis(newDirection, newPosition);
+        shouldSpread = false;
+        return;
 
-        newFire.transform.rotation = transform.rotation;
-        newSprite = newFire.GetComponent<SpriteRenderer>();
-        newScript.Boundaries = boundaries;
-        newScript.DirectionGenerated = DirectionGenerated + 1;
-        newSprite.sprite = fireSprites[0];
+
+        // List<int> directions = new List<int> {0, 1, 2, 3};
+        // //Remove the oppisate direction, we can't spread to the left after we already spread to the right, etc
+        // if (fireDirection == 0 || fireDirection == 2)
+        // {
+        //     directions.Remove(fireDirection + 1);
+        // }
+        // else
+        // {
+        //     directions.Remove(fireDirection - 1);
+        // }
+        //
+        // while (directions.Count != 0)
+        // {
+        //     int randomInt = Random.Range(0, directions.Count);
+        //     newDirection = directions[randomInt];
+        //     newPosition = NewDirectionPosition(newDirection, spreadDistance);
+        //     Collider2D[] fires = Physics2D.OverlapCircleAll(newPosition, 0.5f, fireLayer);
+        //     Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
+        //     if (fires.Length == 0 && koalas.Length == 0 && CheckBoundaryDistance(newDirection, 1))
+        //     {
+        //         break;
+        //     }
+        //     directions.Remove(newDirection);
+        // }
+
+
+        // if (directions.Count == 0)
+        // {
+        //     return;
+        // }
+
+        // if (ShouldChangeAxis(fireDirection, newDirection))
+        // {
+        //     SpreadChangeAxis(newDirection, newPosition);
+        //     shouldSpread = false;
+        //
+        //     return;
+        // }
+
+        // SpreadSameAxis(newDirection, newPosition);
+        // shouldSpread = false;
     }
 
     private void SpreadSameAxis(int newDirection, Vector3 newPosition)
     {
         GameObject newFire;
         newFire = Instantiate(fire);
+        Quaternion rotation = transform.rotation;
         Fire newScript = newFire.GetComponent<Fire>();
         SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
         newSprite.sprite = fireSprites[0];
@@ -208,10 +230,48 @@ public class Fire : MonoBehaviour
         newScript.Boundaries = boundaries;
         newScript.spreadCooldown = spreadCooldown;
         newScript.FireDirection = newDirection;
-        newFire.transform.rotation = transform.rotation;
+        //newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, SameAxisRotation(newDirection));
 
     }
+    // private void SpreadChangeAxis(int newDirection, Vector3 newPosition)
+    // {
+    //     GameObject newFire;
+    //     newFire = Instantiate(fire);
+    //     Quaternion rotation = transform.rotation;
+    //     Fire newScript = newFire.GetComponent<Fire>();
+    //     SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
+    //     newSprite.sprite = fireSprites[1];
+    //     newFire.transform.position = newPosition;
+    //     newScript.Boundaries = boundaries;
+    //     newScript.spreadCooldown = spreadCooldown;
+    //     newScript.FireDirection = newDirection;
+    //     newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, NewRotation(fireDirection, newDirection));
+    //     newFire.transform.position = FixPosition(newDirection, newPosition);
+    //     newScript.AfterAxisChange = true;
+    //     newScript.previousDirection = fireDirection;
+    //     shouldSpread = false;
+    // }
+
     private void SpreadChangeAxis(int newDirection, Vector3 newPosition)
+    {
+        // GameObject newFire;
+        // newFire = Instantiate(fire);
+        // Quaternion rotation = transform.rotation;
+        // Fire newScript = newFire.GetComponent<Fire>();
+        // SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
+        // newSprite.sprite = fireSprites[1];
+        // newFire.transform.position = newPosition;
+        // newScript.Boundaries = boundaries;
+        // newScript.spreadCooldown = spreadCooldown;
+        // newScript.FireDirection = newDirection;
+        // newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, NewRotation(fireDirection, newDirection));
+        // newFire.transform.position = FixPosition(newDirection, newPosition);
+        // newScript.AfterAxisChange = true;
+        // newScript.previousDirection = fireDirection;
+        // shouldSpread = false;
+    }
+
+    private void SpreadAfterAxisChange(int newDirection, Vector3 newPosition)
     {
         GameObject newFire;
         newFire = Instantiate(fire);
@@ -223,13 +283,15 @@ public class Fire : MonoBehaviour
         newScript.Boundaries = boundaries;
         newScript.spreadCooldown = spreadCooldown;
         newScript.FireDirection = newDirection;
-        newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, Mathf.Deg2Rad* NewRotation(fireDirection, newDirection));
+        newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, NewRotation(fireDirection, newDirection));
+        newFire.transform.position = FixPosition(newDirection, newPosition);
+        newScript.AfterAxisChange = false;
     }
 
-    private Vector3 NewDirectionPosition(int direction, float distance)
+    private Vector3 NewDirectionPosition(int newDirection, float distance)
     {
         Vector3 curPosition = transform.position;
-        switch (direction)
+        switch (fireDirection)
         {
             case 0:
                 return new Vector3(curPosition.x, curPosition.y + distance, curPosition.z);
@@ -285,7 +347,7 @@ public class Fire : MonoBehaviour
                     case 3:
                         return 270;
                 }
-
+    
                 break;
             case 2:
                 switch (newDirection)
@@ -295,7 +357,7 @@ public class Fire : MonoBehaviour
                     case 0:
                         return 270;
                 }
-
+    
                 break;
             case 3:
                 switch (newDirection)
@@ -305,10 +367,10 @@ public class Fire : MonoBehaviour
                     case 0:
                         return 180;
                 }
-
+    
                 break;
         }
-
+    
         return 0;
     }
 
@@ -334,6 +396,91 @@ public class Fire : MonoBehaviour
         }
 
         return false;
+    }
+
+    private Vector3 FixPosition(int newDirection, Vector3 newPosition)
+    {
+        switch (newDirection)
+        {
+            case 0:
+                switch (fireDirection)
+                {
+                    case 2:
+                        return new Vector3(newPosition.x, newPosition.y - spreadFix, newPosition.z);
+                    case 3:
+                        return new Vector3(newPosition.x, newPosition.y - spreadFix, newPosition.z);
+
+                }
+
+                break;
+
+            case 1:
+                switch (fireDirection)
+                {
+                    // case 2:
+                    //     return new Vector3(newPosition.x, newPosition.y + spreadFix, newPosition.z);
+                    case 3:
+                        return new Vector3(newPosition.x, newPosition.y + spreadFix, newPosition.z);
+
+                }
+
+                break;
+
+            case 2:
+                switch (fireDirection)
+                {
+                    case 0:
+                        return new Vector3(newPosition.x - spreadFix, newPosition.y, newPosition.z);
+                    case 1:
+                        return new Vector3(newPosition.x - spreadFix, newPosition.y, newPosition.z);
+
+                }
+
+                break;
+
+        }
+
+        return newPosition;
+    }
+    
+    private Vector3 FixPositionAfterChange(Vector3 newPosition)
+    {
+        print(fireDirection);
+        print(previousDirection);
+        if (previousDirection == 2 && fireDirection == 1 || previousDirection == 3 && fireDirection == 1)
+        {
+            return new Vector3(newPosition.x, newPosition.y - spreadDistance, newPosition.z);
+        }
+
+        if (previousDirection == 2 && fireDirection == 0 || previousDirection == 3 && fireDirection == 0)
+        {
+            return new Vector3(newPosition.x, newPosition.y + spreadDistance, newPosition.z);
+        }
+
+        return (new Vector3(0, 0, 0));
+    }
+
+    //
+    // private float SameAxisRotation(int newDirection)
+    // {
+    //     switch (newDirection)
+    //     {
+    //         case 0:
+    //             return 270;
+    //         case 1:
+    //             return 90;
+    //         case 2:
+    //             return 0;
+    //         case 3:
+    //             return 180;
+    //     }
+    //
+    //     return 0;
+    // }
+
+    IEnumerator ChangeDelayes()
+    {
+        yield return new WaitForSeconds(spreadCooldown);
     }
 
 }

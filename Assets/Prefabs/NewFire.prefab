@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6564397673672694476}
   - component: {fileID: 3900026979803155753}
   - component: {fileID: 5477663672933620041}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: NewFire
   m_TagString: Fire
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5416801171108456331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.217189, y: 4.6059003, z: 0}
+  m_LocalPosition: {x: -10.217189, y: 4.6059003, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -71,10 +71,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1707261099
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d6d27452f9b021649b3a8aecb7a07165, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9c70a47a7af163042889d58e2d01ea9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,16 +118,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94b41b3d38a2634ea9916fbefbdf50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireSprites: []
+  fireSprites:
+  - {fileID: 21300000, guid: 9c70a47a7af163042889d58e2d01ea9b, type: 3}
+  - {fileID: 21300000, guid: ff5b32265f407e343aa456266b70f834, type: 3}
   fireLife: 5
   spreadCooldown: 5
   fire: {fileID: 5416801171108456331}
-  fireLayer:
+  groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   koalaLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+  spreadDistance: 1
+  spreadFix: 0.4
 --- !u!61 &5477663672933620041
 BoxCollider2D:
   m_ObjectHideFlags: 0

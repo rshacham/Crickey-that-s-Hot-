@@ -13,6 +13,7 @@ public class RandomCreator : MonoBehaviour
     [SerializeField] private Vector2 rangeY;
     [SerializeField] private int stopSpawningAtThisAmount;
     [SerializeField] private GameObject world;
+    [SerializeField] private LayerMask validLayers;
     
     private Rigidbody2D myRigid;
     private float posRandomTimer;
@@ -38,8 +39,20 @@ public class RandomCreator : MonoBehaviour
         {
             if (posRandomTimer <= 0)
             {
-                myRigid.position = basePos + new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
+                Collider2D[] colliders = {};
+                while (colliders.Length == 0)
+                {
+                    myRigid.position = basePos + new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
+                    colliders = Physics2D.OverlapCircleAll(myRigid.position, 0.0f, validLayers);
+                }
                 posRandomTimer = positionChangeRate;
+                {
+                    Transform newObject = Instantiate(whatToCreate, myRigid.position, quaternion.identity).transform.parent = world.transform;
+                    /*
+                    newObject.position = new Vector3(newObject.position.x, newObject.position.y, -10);
+                    */
+                    amountOfItem++;
+                }
 
             }
             else
@@ -51,11 +64,7 @@ public class RandomCreator : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Ground") & !GameManager._shared.Rotating())
-        {
-            Instantiate(whatToCreate, myRigid.position, quaternion.identity).transform.parent = world.transform;
-            amountOfItem++;
-        }
+
     }
     
 }

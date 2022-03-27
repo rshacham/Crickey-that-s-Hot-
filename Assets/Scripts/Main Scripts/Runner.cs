@@ -22,6 +22,8 @@ public class Runner : MonoBehaviour
     [SerializeField] private GameObject myWorld;
     [SerializeField] private Camera myCamera;
     [SerializeField] private Transform runnerTransform;
+    [SerializeField] private float shootingFix; //We'll correct shootingDirection coordinate to this number, to prevent the runner from shooting backwards
+    
 
     //private Transform runnerTransform;
 
@@ -34,6 +36,7 @@ public class Runner : MonoBehaviour
     private bool isMoving;
     private int dirNum;
     private float speedVarFromOutside = 0;
+    private Vector2 sidewaysVector; // vector 2 that is vertical to the runner's object
     public float OutsideVarSpeed
     {
         get => speedVarFromOutside;
@@ -53,12 +56,26 @@ public class Runner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //print(sidewaysVector);
+        float eulerRotation = transform.rotation.eulerAngles.z;
+        print(eulerRotation);
+        //print(transform.rotation.eulerAngles.z);
+
         mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 shooterPosition = myShooter.transform.position;
+        if (Math.Abs(eulerRotation - 90f) < 0.1f || Math.Abs(eulerRotation - 270f) < 0.1f)
+        {
+            sidewaysVector = (new Vector2(shooterPosition.x - 1, shooterPosition.y) - (Vector2)shooterPosition).normalized;
+        }
+
+        else
+        {
+            {
+                sidewaysVector = (new Vector2(shooterPosition.x, shooterPosition.y - 1) - (Vector2)shooterPosition).normalized;
+
+            }
+        }
         Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
-        // print(shootingDirection);
-        // print(mousePosition);
-        // print(myShooter.transform.position);
         if (rotate == 0)
         {
             myMovement.y = 1; // Always move forward
@@ -106,19 +123,35 @@ public class Runner : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //Vector3 shooterPosition = myShooter.transform.position;
-            //Vector2 shootingDirection = mousePosition - new Vector2(shooterPosition.x, shooterPosition.y); //Calculates a vector to where the runner is currently "looking"
-            //float rotationRad = (transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
-            //shootingDirection = new Vector2(Mathf.Cos(rotationRad), Mathf.Sin(rotationRad));
-
-            //Todo fix shooting when rotating.
-            // if (shootingDirection.y < 0.4)
-            // {
-            //     shootingDirection.y = 0.4f;
-            // }
+            shootingDirection = ShootingDirectionFix(eulerRotation, shootingDirection);
             myShooter.Shoot(shootingDirection.normalized);
         }
         dirNum = (4 + dirNum) % 4;
+    }
+
+    private Vector2 ShootingDirectionFix(float eulerRotation, Vector2 shootingDirection)
+    {
+        if (Math.Abs(eulerRotation) < 0.1f && shootingDirection.y < shootingFix)
+        {
+            shootingDirection.y = shootingFix;
+        }
+
+        if (Math.Abs(eulerRotation - 90) < 0.1f && shootingDirection.x > shootingFix)
+        {
+            shootingDirection.x = shootingFix;
+        }
+
+        if (Math.Abs(eulerRotation - 180) < 0.1f && shootingDirection.y > shootingFix)
+        {
+            shootingDirection.y = shootingFix;
+        }
+
+        if (Math.Abs(eulerRotation - 270) < 0.1f && shootingDirection.x < shootingFix)
+        {
+            shootingDirection.x = shootingFix;
+        }
+
+        return shootingDirection;
     }
 
     private void FixedUpdate()
