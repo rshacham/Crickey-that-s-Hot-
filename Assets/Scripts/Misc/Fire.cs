@@ -74,7 +74,7 @@ public class Fire : MonoBehaviour
         
         if (other.CompareTag("Player"))
         {
-            GameManager._shared.MyLife -= 1;
+            GameManager._shared.MyLife -= 1; ;
         }
     }
 
