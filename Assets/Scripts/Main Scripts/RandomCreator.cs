@@ -15,6 +15,8 @@ public class RandomCreator : MonoBehaviour
     [SerializeField] private int stopSpawningAtThisAmount;
     [SerializeField] private GameObject world;
     [SerializeField] private LayerMask validLayers;
+    [SerializeField] private bool isKoala; //If true generating Koala's, else generating fires
+    [SerializeField] private GameObject fireHolder;
 
     
     private Rigidbody2D myRigid;
@@ -39,8 +41,6 @@ public class RandomCreator : MonoBehaviour
     {
         if (amountOfItem<stopSpawningAtThisAmount)
         {
-            GameObject miniSprite;
-            NPC koalaScript;
             if (posRandomTimer <= 0)
             {
                 Collider2D[] colliders = {};
@@ -50,30 +50,60 @@ public class RandomCreator : MonoBehaviour
                     colliders = Physics2D.OverlapCircleAll(myRigid.position, 0.0f, validLayers);
                 }
                 posRandomTimer = positionChangeRate;
+                if (isKoala)
                 {
-                    GameObject newObject = Instantiate(whatToCreate, myRigid.position, quaternion.identity,
-                        world.transform);
-
-                    print(newObject.gameObject.GetComponent<NPC>());
-                    if (newObject.gameObject.GetComponent<NPC>() != null)
-                    {
-                        koalaScript = newObject.GetComponent<NPC>();
-                        miniSprite =
-                            Instantiate(miniMapSprite, myRigid.position, quaternion.identity, newObject.transform);
-                        koalaScript.MiniSprite = miniSprite;
-                    }
-                    /*
-                    newObject.position = new Vector3(newObject.position.x, newObject.position.y, -10);
-                    */
-                    amountOfItem++;
+                    CreateKoala();
                 }
 
+                else
+                {
+                    CreateFire();
+                }
             }
             else
             {
                 posRandomTimer -= Time.deltaTime;
             }   
         }
+    }
+
+    private void CreateKoala()
+    {
+        GameObject miniSprite;
+        NPC koalaScript;
+
+        GameObject newObject = Instantiate(whatToCreate, myRigid.position, quaternion.identity,
+            world.transform);
+
+        if (newObject.gameObject.GetComponent<NPC>() != null)
+        {
+            koalaScript = newObject.GetComponent<NPC>();
+            miniSprite =
+                Instantiate(miniMapSprite, myRigid.position, quaternion.identity, newObject.transform);
+            koalaScript.MiniSprite = miniSprite;
+        }
+
+        amountOfItem++;
+    }
+
+    private void CreateFire()
+    {
+        GameObject miniSprite;
+        Fire fireScript;
+        GameObject newObject = Instantiate(whatToCreate, myRigid.position, quaternion.identity,
+            world.transform);
+
+        if (newObject.gameObject.GetComponent<Fire>() != null)
+        {
+            fireScript = newObject.GetComponent<Fire>();
+            miniSprite =
+                Instantiate(miniMapSprite, myRigid.position, quaternion.identity, newObject.transform);
+            fireScript.MiniSprite = miniSprite;
+        }
+
+        amountOfItem++;
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)

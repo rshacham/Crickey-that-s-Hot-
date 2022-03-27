@@ -24,7 +24,7 @@ public class Runner : MonoBehaviour
     [SerializeField] private Camera myCamera;
     [SerializeField] private Transform runnerTransform;
     [SerializeField] private float shootingFix; //We'll correct shootingDirection coordinate to this number, to prevent the runner from shooting backwards
-    
+    [SerializeField] private float rotationCoolDown;
 
     //private Transform runnerTransform;
 
@@ -37,6 +37,7 @@ public class Runner : MonoBehaviour
     private bool isMoving;
     private int dirNum;
     private float speedVarFromOutside = 0;
+    private bool canRotate = true;
     private Vector2 sidewaysVector; // vector 2 that is vertical to the runner's object
     public float OutsideVarSpeed
     {
@@ -97,17 +98,22 @@ public class Runner : MonoBehaviour
         {
             myRigid.AddForce(-transform.right/runnerSideSpeed,ForceMode2D.Impulse);
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && canRotate)
         {
             // world.transform.Rotate(new Vector3(0,0,1),-90);
             rotate += 18 * rotationSpeed;
             dirNum--;
+            canRotate = false;
+            StartCoroutine(RotationCooldown());
+
         }
         
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && canRotate)
         {
             rotate -= 18 * rotationSpeed;
             dirNum++;
+            canRotate = false;
+            StartCoroutine(RotationCooldown());
         }
 
         if (Input.GetMouseButtonDown(0) && !GameManager._shared.Rotating())
@@ -224,5 +230,11 @@ public class Runner : MonoBehaviour
         {
             GameManager._shared.GameOver();
         }
+    }
+
+    IEnumerator RotationCooldown()
+    {
+        yield return new WaitForSeconds(rotationCoolDown);
+        canRotate = true;
     }
 }

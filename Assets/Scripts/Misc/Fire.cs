@@ -19,20 +19,21 @@ public class Fire : MonoBehaviour
     [SerializeField] private float spreadFix; //Fix for the x/y position(relevant only when we change axis twice in a row)
     [SerializeField] private bool rotateFire;
     private Runner myRunner;
-    
-    public int PreviousDirection
-    {
-        get => previousDirection;
-        set => previousDirection = value;
-    }
-    private int previousDirection;
 
-    public bool AfterAxisChange
+    private bool isMain;
+
+    public GameObject Holder
     {
-        get => afterAxisChange;
-        set => afterAxisChange = value;
+        get => holder;
+        set => holder = value;
     }
-    private bool afterAxisChange;
+    private GameObject holder;
+    public GameObject MiniSprite
+    {
+        get => miniSprite;
+        set => miniSprite = value;
+    }
+    private GameObject miniSprite;
 
     public int FireDirection
     {
@@ -108,7 +109,6 @@ public class Fire : MonoBehaviour
     private void Spread()
     {
         Vector3 newPosition;
-        previousDirection = fireDirection;
         int newDirection = fireDirection;
 
         newPosition = NewDirectionPosition(newDirection, spreadDistance);
@@ -163,6 +163,9 @@ public class Fire : MonoBehaviour
         newScript.Boundaries = boundaries;
         newScript.spreadCooldown = spreadCooldown;
         newScript.FireDirection = newDirection;
+        // newScript.Holder = holder;
+        // FireHolder holderScript = holder.GetComponent<FireHolder>();
+        // holderScript.myFires.Add(newFire.transform);
 
     }
 
@@ -306,22 +309,6 @@ public class Fire : MonoBehaviour
         return newPosition;
     }
     
-    private Vector3 FixPositionAfterChange(Vector3 newPosition)
-    {
-        print(fireDirection);
-        print(previousDirection);
-        if (previousDirection == 2 && fireDirection == 1 || previousDirection == 3 && fireDirection == 1)
-        {
-            return new Vector3(newPosition.x, newPosition.y - spreadDistance, newPosition.z);
-        }
-
-        if (previousDirection == 2 && fireDirection == 0 || previousDirection == 3 && fireDirection == 0)
-        {
-            return new Vector3(newPosition.x, newPosition.y + spreadDistance, newPosition.z);
-        }
-
-        return (new Vector3(0, 0, 0));
-    }
 
     IEnumerator ChangeDelayes()
     {
