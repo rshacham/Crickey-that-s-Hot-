@@ -51,4 +51,13 @@ public class WaterBullet : MonoBehaviour
         transform.position = new Vector3(transform.position.x + direction.x * shotPower * Time.fixedDeltaTime,
             transform.position.y + direction.y * shotPower * Time.fixedDeltaTime, transform.position.z);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // print(other.gameObject.layer);
+        // if (other.gameObject.layer == 12) // Layer is "Walls"
+        // {
+        //     gameObject.SetActive(false);
+        // }
+    }
 }

@@ -17,7 +17,9 @@ public class Fire : MonoBehaviour
     [SerializeField] private LayerMask koalaLayer;
     [SerializeField] private float spreadDistance; //Distance between x/y position of 2 adjacent fires(basically the size of the sprite)
     [SerializeField] private float spreadFix; //Fix for the x/y position(relevant only when we change axis twice in a row)
-
+    [SerializeField] private bool rotateFire;
+    private Runner myRunner;
+    
     public int PreviousDirection
     {
         get => previousDirection;
@@ -58,6 +60,8 @@ public class Fire : MonoBehaviour
     {
         StartCoroutine(DelaySpread());
         GameManager._shared.CurFires++;
+        myRunner = FindObjectOfType<Runner>();
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -81,7 +85,15 @@ public class Fire : MonoBehaviour
         {
             Destroy(gameObject);
             GameManager._shared.CurFires--;
+            
         }
+
+        if (rotateFire)
+        {
+            transform.rotation = myRunner.transform.rotation;
+
+        }
+
     }
     
     IEnumerator DelaySpread()
@@ -137,122 +149,25 @@ public class Fire : MonoBehaviour
         }
         SpreadSameAxis(newDirection, newPosition);
         shouldSpread = false;
-        return;
-
-
-        // List<int> directions = new List<int> {0, 1, 2, 3};
-        // //Remove the oppisate direction, we can't spread to the left after we already spread to the right, etc
-        // if (fireDirection == 0 || fireDirection == 2)
-        // {
-        //     directions.Remove(fireDirection + 1);
-        // }
-        // else
-        // {
-        //     directions.Remove(fireDirection - 1);
-        // }
-        //
-        // while (directions.Count != 0)
-        // {
-        //     int randomInt = Random.Range(0, directions.Count);
-        //     newDirection = directions[randomInt];
-        //     newPosition = NewDirectionPosition(newDirection, spreadDistance);
-        //     Collider2D[] fires = Physics2D.OverlapCircleAll(newPosition, 0.5f, fireLayer);
-        //     Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
-        //     if (fires.Length == 0 && koalas.Length == 0 && CheckBoundaryDistance(newDirection, 1))
-        //     {
-        //         break;
-        //     }
-        //     directions.Remove(newDirection);
-        // }
-
-
-        // if (directions.Count == 0)
-        // {
-        //     return;
-        // }
-
-        // if (ShouldChangeAxis(fireDirection, newDirection))
-        // {
-        //     SpreadChangeAxis(newDirection, newPosition);
-        //     shouldSpread = false;
-        //
-        //     return;
-        // }
-
-        // SpreadSameAxis(newDirection, newPosition);
-        // shouldSpread = false;
     }
 
     private void SpreadSameAxis(int newDirection, Vector3 newPosition)
     {
         GameObject newFire;
-        newFire = Instantiate(fire);
+        newFire = Instantiate(fire, newPosition, quaternion.identity);
         Quaternion rotation = quaternion.identity;
-        newFire.transform.rotation = rotation;
+        // newFire.transform.rotation = rotation;
         Fire newScript = newFire.GetComponent<Fire>();
         SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
         newSprite.sprite = fireSprites[0];
-        newFire.transform.position = newPosition;
         newScript.Boundaries = boundaries;
         newScript.spreadCooldown = spreadCooldown;
         newScript.FireDirection = newDirection;
-        //newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, SameAxisRotation(newDirection));
 
     }
-    // private void SpreadChangeAxis(int newDirection, Vector3 newPosition)
-    // {
-    //     GameObject newFire;
-    //     newFire = Instantiate(fire);
-    //     Quaternion rotation = transform.rotation;
-    //     Fire newScript = newFire.GetComponent<Fire>();
-    //     SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
-    //     newSprite.sprite = fireSprites[1];
-    //     newFire.transform.position = newPosition;
-    //     newScript.Boundaries = boundaries;
-    //     newScript.spreadCooldown = spreadCooldown;
-    //     newScript.FireDirection = newDirection;
-    //     newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, NewRotation(fireDirection, newDirection));
-    //     newFire.transform.position = FixPosition(newDirection, newPosition);
-    //     newScript.AfterAxisChange = true;
-    //     newScript.previousDirection = fireDirection;
-    //     shouldSpread = false;
-    // }
 
-    private void SpreadChangeAxis(int newDirection, Vector3 newPosition)
-    {
-        // GameObject newFire;
-        // newFire = Instantiate(fire);
-        // Quaternion rotation = transform.rotation;
-        // Fire newScript = newFire.GetComponent<Fire>();
-        // SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
-        // newSprite.sprite = fireSprites[1];
-        // newFire.transform.position = newPosition;
-        // newScript.Boundaries = boundaries;
-        // newScript.spreadCooldown = spreadCooldown;
-        // newScript.FireDirection = newDirection;
-        // newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, NewRotation(fireDirection, newDirection));
-        // newFire.transform.position = FixPosition(newDirection, newPosition);
-        // newScript.AfterAxisChange = true;
-        // newScript.previousDirection = fireDirection;
-        // shouldSpread = false;
-    }
 
-    private void SpreadAfterAxisChange(int newDirection, Vector3 newPosition)
-    {
-        GameObject newFire;
-        newFire = Instantiate(fire);
-        Quaternion rotation = transform.rotation;
-        Fire newScript = newFire.GetComponent<Fire>();
-        SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
-        newSprite.sprite = fireSprites[1];
-        newFire.transform.position = newPosition;
-        newScript.Boundaries = boundaries;
-        newScript.spreadCooldown = spreadCooldown;
-        newScript.FireDirection = newDirection;
-        newFire.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, NewRotation(fireDirection, newDirection));
-        newFire.transform.position = FixPosition(newDirection, newPosition);
-        newScript.AfterAxisChange = false;
-    }
+    
 
     private Vector3 NewDirectionPosition(int newDirection, float distance)
     {
@@ -271,24 +186,6 @@ public class Fire : MonoBehaviour
         
         return new Vector3(0, 0, 0); // Not sure how can i tell the function that if direction
                                      // is not in the range of 0-3, don't return anything
-    }
-
-    private bool CheckBoundaryDistance(int direction, float distance)
-    {
-        Vector3 curPosition = transform.position;
-        switch (direction)
-        {
-            case 0:
-                return ((curPosition.y + distance) < boundaries.x);
-            case 1:
-                return ((curPosition.y - distance) > boundaries.y);
-            case 2:
-                return ((curPosition.x + distance) < boundaries.z);
-            case 3:
-                return ((curPosition.x - distance) > boundaries.w);
-        }
-
-        return false;
     }
 
     private float NewRotation(int oldDirection, int newDirection)
@@ -425,24 +322,6 @@ public class Fire : MonoBehaviour
 
         return (new Vector3(0, 0, 0));
     }
-
-    //
-    // private float SameAxisRotation(int newDirection)
-    // {
-    //     switch (newDirection)
-    //     {
-    //         case 0:
-    //             return 270;
-    //         case 1:
-    //             return 90;
-    //         case 2:
-    //             return 0;
-    //         case 3:
-    //             return 180;
-    //     }
-    //
-    //     return 0;
-    // }
 
     IEnumerator ChangeDelayes()
     {

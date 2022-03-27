@@ -21,12 +21,6 @@ public class Shooter : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     public void Shoot(Vector2 direction)
     {
         GameObject temp;
@@ -40,8 +34,8 @@ public class Shooter : MonoBehaviour
                 temp.SetActive(true);
                 WaterBullet bulletScript = temp.GetComponent<WaterBullet>();
                 bulletScript.Direction = direction.normalized;
-                
                 bulletScript.ShotPower = shotPower;
+                SoundManager._shared.PlaySound("waterSound");
                 //rigid = temp.GetComponent<Rigidbody2D>();
                 //rigid.velocity = direction * shotPower;
                 //SoundManager._shared.PlaySound("shotSound");

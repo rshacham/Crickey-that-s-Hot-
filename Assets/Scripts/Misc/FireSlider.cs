@@ -18,8 +18,6 @@ public class FireSlider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(GameManager._shared.CurFires);
-        print(GameManager._shared.maxFires);
         slider.value = GameManager._shared.CurFires / GameManager._shared.maxFires;
         if (slider.value < 0.50f)
         {

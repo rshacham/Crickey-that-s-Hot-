@@ -121,8 +121,8 @@ MonoBehaviour:
   fireSprites:
   - {fileID: 21300000, guid: 9c70a47a7af163042889d58e2d01ea9b, type: 3}
   - {fileID: 21300000, guid: ff5b32265f407e343aa456266b70f834, type: 3}
-  fireLife: 5
-  spreadCooldown: 5
+  fireLife: 1
+  spreadCooldown: 3
   fire: {fileID: 5416801171108456331}
   groundLayer:
     serializedVersion: 2

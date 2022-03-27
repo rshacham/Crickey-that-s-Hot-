@@ -109,7 +109,7 @@ public class Runner : MonoBehaviour
             dirNum++;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !GameManager._shared.Rotating())
         {
             shootingDirection = ShootingDirectionFix(eulerRotation, shootingDirection);
             myShooter.Shoot(shootingDirection.normalized);
@@ -143,8 +143,7 @@ public class Runner : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
-        print(myRigid.velocity.magnitude);
+    { 
         float currSpeed = runnerSpeed + OutsideVarSpeed;
         Vector2 lookingDirection = mousePosition - myRigid.position; //Calculates a vector to where the runner is currently "looking"
         if (rotate == 0 & !isMoving) // Controls the movement of the runner, we only want this to occur if rotation is 0
