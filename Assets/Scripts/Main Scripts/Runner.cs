@@ -144,6 +144,7 @@ public class Runner : MonoBehaviour
 
     private void FixedUpdate()
     {
+        print(myRigid.velocity.magnitude);
         float currSpeed = runnerSpeed + OutsideVarSpeed;
         Vector2 lookingDirection = mousePosition - myRigid.position; //Calculates a vector to where the runner is currently "looking"
         if (rotate == 0 & !isMoving) // Controls the movement of the runner, we only want this to occur if rotation is 0
@@ -211,7 +212,6 @@ public class Runner : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        print(dirNum);
         if (other.gameObject.CompareTag("Wall") & (dirNum == 0 | dirNum == 2))
         {
             SceneManager.LoadScene("Beta");

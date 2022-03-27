@@ -57,18 +57,13 @@ public class Fire : MonoBehaviour
     void OnEnable()
     {
         StartCoroutine(DelaySpread());
-        boundaries.x = 40.5f;
-        boundaries.y = -3.5f;
-        boundaries.z = 4.5f;
-        boundaries.w = -2.5f;
+        GameManager._shared.CurFires++;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("WaterBullet"))
         {
-            print("hey");
-            print("fireLife");
             fireLife -= 1;
             other.gameObject.SetActive(false);
         }
@@ -85,6 +80,7 @@ public class Fire : MonoBehaviour
         if (fireLife == 0)
         {
             Destroy(gameObject);
+            GameManager._shared.CurFires--;
         }
     }
     
@@ -95,7 +91,6 @@ public class Fire : MonoBehaviour
             yield return new WaitForSeconds(spreadCooldown);
             Spread();
         }
-        
     }
 
     private void Spread()
@@ -103,22 +98,6 @@ public class Fire : MonoBehaviour
         Vector3 newPosition;
         previousDirection = fireDirection;
         int newDirection = fireDirection;
-        // if (AfterAxisChange)
-        // {
-        //     if (CheckBoundaryDistance(newDirection, spreadDistance))
-        //     {
-        //         Vector3 newPosition = FixPositionAfterChange(transform.position);
-        //         Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
-        //         if (koalas.Length != 0)
-        //         {
-        //             shouldSpread = false;
-        //             return;
-        //         }
-        //         SpreadAfterAxisChange(newDirection, newPosition);
-        //         shouldSpread = false;
-        //         return;
-        //     }
-        // }
 
         newPosition = NewDirectionPosition(newDirection, spreadDistance);
         Collider2D[] grounds = Physics2D.OverlapCircleAll(newPosition, 0f, groundLayer);
@@ -137,29 +116,7 @@ public class Fire : MonoBehaviour
             return;
         }
 
-        // else
-        // {
-        //     List<int> directions = new List<int> {0, 1};
-        //     while (directions.Count != 0)
-        //     {
-        //         int randomInt = Random.Range(0, directions.Count);
-        //         newDirection = directions[randomInt];
-        //         Vector3 newPosition = NewDirectionPosition(newDirection, spreadDistance);
-        //         Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
-        //         if (koalas.Length == 0 && CheckBoundaryDistance(newDirection, 1))
-        //         {
-        //             SpreadChangeAxis(newDirection, newPosition);
-        //             shouldSpread = false;
-        //             return;
-        //         }
-        //         directions.Remove(newDirection);
-        //         if (directions.Count == 0)
-        //         {
-        //             shouldSpread = false;
-        //             return;
-        //         }
-        //     }
-        // }
+
 
         Vector3 curPosition = transform.position;
         newPosition = new Vector3(curPosition.x, curPosition.y + spreadDistance, curPosition.z);

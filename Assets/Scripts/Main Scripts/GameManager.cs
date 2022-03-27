@@ -20,13 +20,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Runner runner;
     [SerializeField] private TextMeshProUGUI scoreUI;
     [SerializeField] private float koalaEffectOnSpeed;
-
+    [SerializeField] public float maxFires;
     public int MyLife
     {
         get => myLife;
         set => myLife = value;
     }
     [SerializeField] private int myLife;
+
+    public float CurFires
+    {
+        get => curFires;
+        set => curFires = value;
+    }
+    private float curFires;
+
 
     
     private int score;
