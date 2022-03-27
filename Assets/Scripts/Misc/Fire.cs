@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -64,10 +65,17 @@ public class Fire : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (CompareTag("WaterBullet"))
+        if (other.CompareTag("WaterBullet"))
         {
+            print("hey");
+            print("fireLife");
             fireLife -= 1;
             other.gameObject.SetActive(false);
+        }
+        
+        if (other.CompareTag("Player"))
+        {
+            GameManager._shared.MyLife -= 1;
         }
     }
 
@@ -222,7 +230,8 @@ public class Fire : MonoBehaviour
     {
         GameObject newFire;
         newFire = Instantiate(fire);
-        Quaternion rotation = transform.rotation;
+        Quaternion rotation = quaternion.identity;
+        newFire.transform.rotation = rotation;
         Fire newScript = newFire.GetComponent<Fire>();
         SpriteRenderer newSprite = newFire.GetComponent<SpriteRenderer>();
         newSprite.sprite = fireSprites[0];

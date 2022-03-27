@@ -56,10 +56,7 @@ public class Runner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(sidewaysVector);
         float eulerRotation = transform.rotation.eulerAngles.z;
-        print(eulerRotation);
-        //print(transform.rotation.eulerAngles.z);
 
         mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 shooterPosition = myShooter.transform.position;
@@ -79,16 +76,7 @@ public class Runner : MonoBehaviour
         if (rotate == 0)
         {
             myMovement.y = 1; // Always move forward
-            myMovement.x = -Input.GetAxisRaw("Horizontal"); 
-            // if (Input.GetKeyDown(KeyCode.A))
-            // {
-            //     GameManager._shared.TurningRight = false;
-            // }
-            //
-            // if (Input.GetKeyDown(KeyCode.D))
-            // {
-            //     GameManager._shared.TurningRight = true;
-            // }
+            myMovement.x = -Input.GetAxisRaw("Horizontal");
         }
         Vector2 brakeVector = myRigid.velocity;
         if (dirNum % 2 == 0)
@@ -158,21 +146,6 @@ public class Runner : MonoBehaviour
     {
         float currSpeed = runnerSpeed + OutsideVarSpeed;
         Vector2 lookingDirection = mousePosition - myRigid.position; //Calculates a vector to where the runner is currently "looking"
-        // angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg - 90; 
-        // if (angle >= 0 && angle < 90)
-        // {
-        //     myRigid.rotation = 0;
-        // }
-        //
-        // else if (angle < -180)
-        // {
-        //     myRigid.rotation = -180;
-        // }
-        //
-        // else
-        // {
-        //     myRigid.rotation = angle;
-        // }
         if (rotate == 0 & !isMoving) // Controls the movement of the runner, we only want this to occur if rotation is 0
         {
             // myRigid.MovePosition(myRigid.position + myMovement * runnerSpeed * Time.fixedDeltaTime);

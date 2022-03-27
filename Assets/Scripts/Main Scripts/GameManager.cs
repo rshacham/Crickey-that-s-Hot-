@@ -21,6 +21,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreUI;
     [SerializeField] private float koalaEffectOnSpeed;
 
+    public int MyLife
+    {
+        get => myLife;
+        set => myLife = value;
+    }
+    [SerializeField] private int myLife;
+
     
     private int score;
     void Start()
@@ -32,7 +39,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (myLife == 0)
+        {
+            Time.timeScale = 0;
+        }
     }
 
     public void GotKoala()
