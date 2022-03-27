@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,9 +48,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (myLife == 0)
+        if (myLife == 0 || curFires >= maxFires)
         {
-            Time.timeScale = 0;
+            GameOver();
         }
     }
 
@@ -64,5 +65,10 @@ public class GameManager : MonoBehaviour
     public bool Rotating()
     {
         return runner.Rotate != 0;
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene(2);
     }
 }

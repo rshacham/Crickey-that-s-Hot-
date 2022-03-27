@@ -919,7 +919,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: your score is
+  m_text: You saved    Koalas
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
   m_sharedMaterial: {fileID: 6765499141289058631, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
@@ -1317,6 +1317,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: 0.5}
+  m_AnchoredPosition: {x: 0.35, y: 0.5}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}

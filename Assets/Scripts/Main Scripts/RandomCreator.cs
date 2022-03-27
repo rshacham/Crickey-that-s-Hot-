@@ -8,12 +8,14 @@ using Random = UnityEngine.Random;
 public class RandomCreator : MonoBehaviour
 {
     [SerializeField] private GameObject whatToCreate;
+    [SerializeField] private GameObject miniMapSprite;
     [SerializeField] private float positionChangeRate;
     [SerializeField] private Vector2 rangeX;
     [SerializeField] private Vector2 rangeY;
     [SerializeField] private int stopSpawningAtThisAmount;
     [SerializeField] private GameObject world;
     [SerializeField] private LayerMask validLayers;
+
     
     private Rigidbody2D myRigid;
     private float posRandomTimer;
@@ -37,6 +39,8 @@ public class RandomCreator : MonoBehaviour
     {
         if (amountOfItem<stopSpawningAtThisAmount)
         {
+            GameObject miniSprite;
+            NPC koalaScript;
             if (posRandomTimer <= 0)
             {
                 Collider2D[] colliders = {};
@@ -47,7 +51,17 @@ public class RandomCreator : MonoBehaviour
                 }
                 posRandomTimer = positionChangeRate;
                 {
-                    Transform newObject = Instantiate(whatToCreate, myRigid.position, quaternion.identity).transform.parent = world.transform;
+                    GameObject newObject = Instantiate(whatToCreate, myRigid.position, quaternion.identity,
+                        world.transform);
+
+                    print(newObject.gameObject.GetComponent<NPC>());
+                    if (newObject.gameObject.GetComponent<NPC>() != null)
+                    {
+                        koalaScript = newObject.GetComponent<NPC>();
+                        miniSprite =
+                            Instantiate(miniMapSprite, myRigid.position, quaternion.identity, newObject.transform);
+                        koalaScript.MiniSprite = miniSprite;
+                    }
                     /*
                     newObject.position = new Vector3(newObject.position.x, newObject.position.y, -10);
                     */

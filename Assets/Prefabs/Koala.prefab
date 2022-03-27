@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4576841632992684769}
   - component: {fileID: -7227947462611058471}
   - component: {fileID: -4927979294508584683}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Koala
   m_TagString: Koala
   m_Icon: {fileID: 0}

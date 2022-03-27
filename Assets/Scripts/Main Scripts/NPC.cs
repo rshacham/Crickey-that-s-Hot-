@@ -5,6 +5,13 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     [SerializeField] private Runner myRunner;
+
+    public GameObject MiniSprite
+    {
+        get => miniSprite;
+        set => miniSprite = value;
+    }
+    private GameObject miniSprite;
     // Start is called before the first frame update
     void Start()
     {

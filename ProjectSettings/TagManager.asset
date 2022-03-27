@@ -27,7 +27,7 @@ TagManager:
   - WaterBullets
   - Grounds
   - Walls
-  - 
+  - MiniMapSprites
   - 
   - 
   - 
@@ -50,9 +50,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: MiniMapSprites
+    uniqueID: 3990428481
+    locked: 0
   - name: Fires
     uniqueID: 1707261099
-    locked: 0
-  - name: New Layer
-    uniqueID: 3990428481
     locked: 0

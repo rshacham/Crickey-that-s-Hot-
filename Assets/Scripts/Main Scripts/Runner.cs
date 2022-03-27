@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -192,6 +193,8 @@ public class Runner : MonoBehaviour
         if (other.CompareTag("Koala"))
         {
             GameManager._shared.GotKoala();
+            NPC koalaScript = other.gameObject.GetComponent<NPC>();
+            Destroy(koalaScript.MiniSprite);
             Destroy(other.gameObject);
         }
         if (other.CompareTag("Fire")) //TODO hitting a fire mechanic, probably game over
@@ -213,13 +216,13 @@ public class Runner : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall") & (dirNum == 0 | dirNum == 2))
         {
-            SceneManager.LoadScene("Beta");
+            GameManager._shared.GameOver();
             
         }
         
         if (other.gameObject.CompareTag("Wall side") & (dirNum == 1 | dirNum == 3))
         {
-            SceneManager.LoadScene("Beta");
+            GameManager._shared.GameOver();
         }
     }
 }
