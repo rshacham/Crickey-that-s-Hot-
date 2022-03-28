@@ -50,9 +50,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Canvas
-    uniqueID: 3164824701
-    locked: 0
   - name: MiniMapSprites
     uniqueID: 3990428481
     locked: 0
@@ -61,4 +58,7 @@ TagManager:
     locked: 0
   - name: Koalas
     uniqueID: 858094467
+    locked: 0
+  - name: Canvas
+    uniqueID: 3164824701
     locked: 0
