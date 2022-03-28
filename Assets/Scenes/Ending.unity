@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &269172410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 269172412}
+  - component: {fileID: 269172411}
+  m_Layer: 0
+  m_Name: Script
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &269172411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269172410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a5c5f84b6190448af43ae8ef4a9653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 2088300239}
+  scoreHolder: {fileID: 11400000, guid: c6a2b746aeb321c4cb7ded4fb49615c3, type: 2}
+--- !u!4 &269172412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269172410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8856763, y: -1.883909, z: -6.87679}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &558374362
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +304,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press X to read more
+  m_text: Press ENTER to read more
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
   m_sharedMaterial: {fileID: 6765499141289058631, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
@@ -445,7 +490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press X to play again
+  m_text: Press SPACE to play again
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
   m_sharedMaterial: {fileID: 6765499141289058631, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
@@ -733,7 +778,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: But there is so much more you can do to save the wildlife in australia
+  m_text: But there is so much more you can do to save the wildlife in Australia
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
   m_sharedMaterial: {fileID: 6765499141289058631, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
@@ -1147,7 +1192,7 @@ GameObject:
   - component: {fileID: 2088300239}
   - component: {fileID: 2088300238}
   m_Layer: 0
-  m_Name: x
+  m_Name: score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

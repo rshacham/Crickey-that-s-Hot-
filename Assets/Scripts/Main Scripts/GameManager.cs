@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreUI;
     [SerializeField] private float koalaEffectOnSpeed;
     [SerializeField] public float maxFires;
+    [SerializeField] private ScoreHolder myScore;
     public int MyLife
     {
         get => myLife;
@@ -36,8 +37,13 @@ public class GameManager : MonoBehaviour
     }
     private float curFires;
 
+    public int Score
+    {
+        get => score;
+        set => score = value;
+    }
 
-    
+
     private int score;
     void Start()
     {
@@ -63,6 +69,7 @@ public class GameManager : MonoBehaviour
     {
         koalaSpawner.AmountOfItem -= 1;
         score++;
+        myScore.score = score;
         scoreUI.text = score.ToString();
         runner.OutsideVarSpeed += koalaEffectOnSpeed;
     }
