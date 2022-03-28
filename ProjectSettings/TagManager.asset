@@ -56,3 +56,6 @@ TagManager:
   - name: Fires
     uniqueID: 1707261099
     locked: 0
+  - name: Koalas
+    uniqueID: 858094467
+    locked: 0
