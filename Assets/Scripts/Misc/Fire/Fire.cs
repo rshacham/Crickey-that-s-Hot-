@@ -120,7 +120,6 @@ public class Fire : MonoBehaviour
             Collider2D[] koalas = Physics2D.OverlapCircleAll(newPosition, 0.5f, koalaLayer);
             if (koalas.Length != 0)
             {
-                shouldSpread = false;
                 return;
             }
             SpreadSameAxis(newDirection, newPosition);

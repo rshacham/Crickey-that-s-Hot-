@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour
     {
         koalaSpawner.AmountOfItem -= 1;
         score++;
-        myScore.score = score;
         scoreUI.text = score.ToString();
         runner.OutsideVarSpeed += koalaEffectOnSpeed;
     }
@@ -82,5 +81,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         SceneManager.LoadScene(2);
+        myScore.score = score;
+
     }
 }

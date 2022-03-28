@@ -50,6 +50,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Canvas
+    uniqueID: 3164824701
+    locked: 0
   - name: MiniMapSprites
     uniqueID: 3990428481
     locked: 0
