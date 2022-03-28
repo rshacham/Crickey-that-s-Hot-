@@ -587,8 +587,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: save the koala bears and put down forest fires before the fire meter gets
-    full and it's too late!
+  m_text: save the koala bears and put out forest fires to keep the fire meter from
+    getting full!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
   m_sharedMaterial: {fileID: 6765499141289058631, guid: 5a283ca1e2d9aac46909c6760cf106ba, type: 2}
