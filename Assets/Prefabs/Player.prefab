@@ -100,10 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runnerSpeed: 6
+  runnerSideSpeed: 0
+  runnerSideBraking: 0
   rotationSpeed: 2
   myWorld: {fileID: 8333216902824607001}
   myCamera: {fileID: 0}
   runnerTransform: {fileID: 8333216902865341562}
+  shootingFix: 0
+  rotationCoolDown: 0
 --- !u!50 &8333216902865341561
 Rigidbody2D:
   serializedVersion: 4
