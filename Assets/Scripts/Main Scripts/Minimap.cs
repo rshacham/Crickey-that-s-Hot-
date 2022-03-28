@@ -9,6 +9,9 @@ public class Minimap : MonoBehaviour
     [SerializeField] private bool followPosition;
     [SerializeField] private int height1;
     [SerializeField] private int height2;
+    [SerializeField] private LayerMask upperCam;
+    [SerializeField] private LayerMask lowerCam;
+
     private bool up;
     // Start is called before the first frame update
     void Start()
