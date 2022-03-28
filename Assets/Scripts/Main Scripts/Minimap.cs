@@ -13,10 +13,14 @@ public class Minimap : MonoBehaviour
     [SerializeField] private LayerMask lowerCam;
 
     private bool up;
+
+    private Camera myCam;
     // Start is called before the first frame update
     void Start()
     {
         up = false;
+        myCam = GetComponent<Camera>();
+        myCam.cullingMask = lowerCam;
     }
 
     // Update is called once per frame
@@ -37,6 +41,7 @@ public class Minimap : MonoBehaviour
             pos.z = up ? -height1 : -height2;
             up = !up;
             transform.position = pos;
+            myCam.cullingMask = up ? upperCam : lowerCam;
         }
     }
 }
