@@ -44,6 +44,7 @@ public class RandomCreator : MonoBehaviour
             if (posRandomTimer <= 0)
             {
                 Collider2D[] colliders = {};
+                Collider2D[] nonValidLayers;
                 while (colliders.Length == 0)
                 {
                     myRigid.position = basePos + new Vector2(Random.Range((int)rangeX.x, (int)rangeX.y), Random.Range((int)rangeY.x, (int)rangeY.y));
