@@ -136,6 +136,8 @@ WHATSNEW*          text
 *.prefab linguist-generated
 *.unity linguist-generated
 
+*.* linguist-language=c#
+
 # ONLY INCLUDE IF USING GIT LFS -------------
 
 # 3D modelsd
@@ -187,4 +189,3 @@ WHATSNEW*          text
 *.tif filter=lfs diff=lfs merge=lfs -text
 *.tiff filter=lfs diff=lfs merge=lfs -text
 
-*.* linguist-language=c#
