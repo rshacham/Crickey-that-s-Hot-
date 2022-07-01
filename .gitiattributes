@@ -136,4 +136,4 @@ WHATSNEW*          text
 *.prefab linguist-generated
 *.unity linguist-generated
 
-*.* linguist-language=c#
+*. linguist-language=c#
